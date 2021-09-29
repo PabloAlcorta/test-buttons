@@ -1,0 +1,12 @@
+<div style="height: 7vh;">
+<mat-toolbar color="primary" style="height: 100% !important">
+    <span>Test de botón</span>
+    <span class="spacer"></span>
+    <a class="link" *ngIf="!_logged()">Iniciar sesión</a>
+    <mat-icon class="icon" *ngIf="!_logged()">login</mat-icon>
+    <a class="link" *ngIf="_logged()">{{user.name}}</a>
+    <mat-icon class="icon" *ngIf="_logged()">account_circle</mat-icon>
+    <!-- <mat-icon class="example-icon" aria-hidden="false" aria-label="Example delete icon">delete</mat-icon> -->
+</mat-toolbar>
+</div>
+<router-outlet></router-outlet>
