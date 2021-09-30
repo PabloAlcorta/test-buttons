@@ -13,3 +13,7 @@
 .icon:hover {
 	cursor: pointer;
 }
+
+.iconLogout {
+	margin-right: 0px !important;
+}

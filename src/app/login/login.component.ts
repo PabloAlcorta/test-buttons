@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from 'src/app/services/users.service';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +15,9 @@ export class LoginComponent implements OnInit {
 
   constructor(
   	private userService: UsersService,
-  	public fb: FormBuilder
+  	public fb: FormBuilder,
+    private router: Router,
+    private snackBar: MatSnackBar
   ) { 
   	this.loginForm = this.fb.group({
       username: ['', [Validators.required]],
@@ -37,9 +41,14 @@ export class LoginComponent implements OnInit {
   		  u.username == this.loginForm.value.username && 
   		  u.email == this.loginForm.value.email
   		));
-  		console.log(i);
-  		if (i!=-1)
+  		if (i!=-1) {
   		  sessionStorage.setItem('user',JSON.stringify(users[i]));
+        this.router.navigate(['']);
+      }
+      else
+        this.snackBar.open('Usuario o email incorrecto', 'Close', {
+          duration: 2500
+        });
   	})
   }
 

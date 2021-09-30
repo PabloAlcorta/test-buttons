@@ -1,0 +1,42 @@
+<div *ngIf="!loading">
+	<h2 align="center" *ngIf="economia.length > 0">Economia</h2>
+	<div class="containerCards" *ngIf="economia.length > 0">
+		<div class="card" *ngFor="let card of economia">
+			<img [src]="card.urlToImage" alt="" style="height: 100%;">
+			<div class="textoOnImage">
+				Author: {{card.author}} <br>
+				{{card.content}}
+			</div>
+		</div>
+	</div>
+
+	<br><br>
+	<h2 align="center" *ngIf="technology.length > 0">Tecnología</h2>
+	<div class="containerCards" *ngIf="technology.length > 0">
+		<div class="card" *ngFor="let card of technology">
+			<img [src]="card.urlToImage" alt="" style="height: 100%;">
+			<div class="textoOnImage">
+				Author: {{card.author}} <br>
+				{{card.content}}
+			</div>
+		</div>
+	</div>
+
+	<br><br>
+	<h2 align="center" *ngIf="covid.length > 0">Covid-19</h2>
+	<div class="containerCards" *ngIf="covid.length > 0">
+		<div class="card" *ngFor="let card of covid">
+			<img [src]="card.urlToImage" alt="" style="height: 100%;">
+			<div class="textoOnImage">
+				Author: {{card.author}} <br>
+				{{card.content}}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div style="margin-top: 30px;">
+	<mat-spinner diameter="120" style="margin: 0 auto;"></mat-spinner>
+</div>
+
+

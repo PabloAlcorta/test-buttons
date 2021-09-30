@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ export class AppComponent {
   user: any;
   loading=false;
 
-  constructor() {}
+  constructor( private router: Router ) {}
 
   ngOnInit() {
   	this._logged();
@@ -21,6 +22,11 @@ export class AppComponent {
     if (condition)
       this.user = JSON.parse(sessionStorage.getItem('user') || '{}');
     return condition;
+  }
+
+  logout() {
+    sessionStorage.removeItem('user');
+    this.router.navigate(['login']);
   }
 
 }

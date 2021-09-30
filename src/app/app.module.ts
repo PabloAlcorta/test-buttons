@@ -10,12 +10,20 @@ import { MatIconModule } from '@angular/material/icon';
 import { LoginComponent } from './login/login.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { HomeComponent } from './home/home.component';
+import { CardsInfoComponent } from './cards-info/cards-info.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    HomeComponent,
+    CardsInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +35,9 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
     MatIconModule,
     MatInputModule,
     MatButtonModule,
+    MatMenuModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
     FormsModule,
     ReactiveFormsModule
   ],

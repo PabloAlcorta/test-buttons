@@ -1,0 +1,43 @@
+h2 {
+	font-size: 25px;
+}
+
+.containerCards {
+	width: 100%;
+	display:flex;
+    justify-content: space-between;
+}
+
+.card {
+	height: 150px;
+	width: 20%;
+	margin: 10px;
+	border-radius: 10px;
+	text-align: center;
+	border: 0.5px solid black;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	position: relative;
+	background: white;
+}
+
+.card:hover {
+	cursor: pointer;
+}
+
+.textoOnImage {
+	width: 100%;
+	text-align: center;
+	background: white;
+	position: absolute;
+	bottom: 0px;
+	height: 40px;
+	color: white;
+	background: #673ab7;
+	padding-left: 10px;
+	padding-right: 10px;
+	overflow: hidden;
+	white-space: nowrap;
+    text-overflow: ellipsis;
+    opacity: 0.8;
+}
