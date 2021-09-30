@@ -4,9 +4,38 @@
 
 	<br>
 
-	<h1 align="center">{{timer}}</h1>
-	<div class="w-60">
+	<h1 align="center" *ngIf="!clicked">{{timer}}</h1>
+	<div class="w-60" *ngIf="!clicked">
 		<button mat-raised-button color="primary" class="btn" (click)="stopCount()">Click me!</button>
+	</div>
+	<div class="w-60" *ngIf="clicked">
+		Felicitaciones! Su color es 
+		<small [ngClass]="{
+			'purple': myColor=='purple',
+			'blue': myColor=='blue',
+			'green': myColor=='green',
+			'yellow': myColor=='yellow',
+			'orange': myColor=='orange',
+			'red': myColor=='red',
+			'grey': myColor=='grey'
+		}">
+			{{myColor}}
+		</small>
+	</div>
+
+	<br>
+
+	<h3 align="center" *ngIf="chart">Los demás usuarios clickearon</h3>
+	<div class="chart-wrapper" *ngIf="chart">
+	    <canvas baseChart 
+	    [data]="pieChartData" 
+	    [labels]="pieChartLabels" 
+	    [chartType]="pieChartType"
+	    [options]="pieChartOptions"
+	    [plugins]="pieChartPlugins"
+	    [legend]="pieChartLegend"
+	    [colors]="donutColors">
+	  </canvas>
 	</div>
 
 	<br>

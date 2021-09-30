@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ChartType, ChartOptions } from 'chart.js';
+import { SingleDataSet, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip } from 'ng2-charts';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  public pieChartOptions: ChartOptions = {
+    responsive: true,
+  };
+  public pieChartLabels: Label[] = [];
+  public pieChartData: SingleDataSet = [];
+  public pieChartType: ChartType = 'pie';
+  public pieChartLegend = true;
+  public pieChartPlugins = [];
+  public donutColors:any=[
+    {
+      backgroundColor: []
+    }
+  ];
+
+  constructor() { 
+  	monkeyPatchChartJsTooltip();
+    monkeyPatchChartJsLegend();
+  }
 
   user:any;
   timer:number=60;
@@ -22,19 +41,32 @@ export class HomeComponent implements OnInit {
   ];
   randomNumber=Math.round(Math.random()*(60-1)+1);
   clicked:boolean=false;
+  chart:boolean=false;
   myColor:string='';
 
   ngOnInit(): void {
   	this.user = JSON.parse(sessionStorage.getItem('user') || '{}');
-  	this.countReverse();
+  	console.log(sessionStorage.getItem('selectionUser'));
+  	if (sessionStorage.getItem('selectionUser')) {
+  		this.colors = JSON.parse(sessionStorage.getItem('selectionUser') || '[]').colors;
+  		this.myColor = JSON.parse(sessionStorage.getItem('selectionUser') || '[]').myColor;
+  		this.clicked = true;
+  	}
+  	else
+  		this.countReverse();
   }
 
   countReverse() {
   	var count = setInterval(()=>{
   		if (this.clicked) {
   			this.myColor = this.assignColor();
-  			console.log(this.myColor);
   			this.addNumberToColor();
+  			this.makeChart();
+  			let selectionUser = {
+  				'myColor': this.myColor,
+  				'colors': this.colors,
+  			}
+  			sessionStorage.setItem('selectionUser',JSON.stringify(selectionUser));
   			clearInterval(count);
   		}
 
@@ -56,6 +88,15 @@ export class HomeComponent implements OnInit {
 
   stopCount() {
   	this.clicked = true;  	
+  }
+
+  makeChart() {
+  	this.colors.forEach(c=>{
+  		this.pieChartLabels.push(c['color']);
+  		this.pieChartData.push(c['cant']);
+  		this.donutColors[0].backgroundColor.push(c['color']);
+  	})
+  	this.chart=true;
   }
 
   assignColor() {
