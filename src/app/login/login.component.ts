@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
   	.subscribe(data=>{
   		let users:any=[];
   		users=data;
-  		console.log(data);
   		let i = users.findIndex((u:any) => (
   		  u.username == this.loginForm.value.username && 
   		  u.email == this.loginForm.value.email

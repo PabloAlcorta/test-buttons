@@ -81,8 +81,6 @@ export class HomeComponent implements OnInit {
         let i = this.usersSimulated.findIndex(u=>u.color == 'grey');
         //Si todos seleccionaron color, se le asigna grey
         this.myColor=i != -1 ? this.assignColor(this.timer) : 'grey';
-        console.log(this.myColor, i)
-        console.log(this.usersSimulated)
   			this.countColorFromUsers();
   			clearInterval(count);
   		}
@@ -103,7 +101,7 @@ export class HomeComponent implements OnInit {
         this.changeUserColor(time);
       else {
         this.clicked=true;
-        this.countColorFromUsers();
+        //this.countColorFromUsers();
       }
     }
     else
