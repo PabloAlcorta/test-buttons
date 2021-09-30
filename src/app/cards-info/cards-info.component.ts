@@ -21,7 +21,7 @@ export class CardsInfoComponent implements OnInit {
   		this.covid = data.articles.slice(0,4);
   		this.technology = data.articles.slice(4,8);
   		this.economia = data.articles.slice(8,12);
-      this.loading=false;
+      this.loading=false; 
   	})
   }
 
