@@ -39,16 +39,27 @@ export class HomeComponent implements OnInit {
   	{'color': 'red','cant':0},
   	{'color': 'grey', 'cant': 0}
   ];
+  usersSimulated=[
+    {'user':'Michael', 'color':'grey'},
+    {'user':'Leslie', 'color':'grey'},
+    {'user':'David', 'color':'grey'},
+    {'user':'Alison', 'color':'grey'},
+    {'user':'Timy', 'color':'grey'},
+    {'user':'Harry', 'color':'grey'},
+    {'user':'Penny', 'color':'grey'},
+    {'user':'Leonard', 'color':'grey'},
+    {'user':'Samuel', 'color':'grey'},
+    {'user':'Mary', 'color':'grey'},
+  ]
   randomNumber=Math.round(Math.random()*(60-1)+1); //Genera el numero aleatorio entre 1 y 60
   clicked:boolean=false; //para indicar que se hizo click ya
   chart:boolean=false; //cuando es true se muestra el grafico
-  myColor:string='';
+  myColor:string='grey';
 
   ngOnInit(): void {
   	this.user = JSON.parse(localStorage.getItem('user') || '{}');
   	if (localStorage.getItem('selectionUser')) {
       let usersSaved = JSON.parse(localStorage.getItem('selectionUser') || '[]');
-      console.log(usersSaved);
       let i = usersSaved.findIndex((u:any)=>(u.username==this.user.username && u.email == this.user.email))
       if (i!=-1) {
     		this.colors = usersSaved[i].colors;
@@ -67,33 +78,43 @@ export class HomeComponent implements OnInit {
   countReverse() {
   	var count = setInterval(()=>{
   		if (this.clicked) {
-  			this.saveData();
+        let i = this.usersSimulated.findIndex(u=>u.color == 'grey');
+        //Si todos seleccionaron color, se le asigna grey
+        this.myColor=i != -1 ? this.assignColor(this.timer) : 'grey';
+        console.log(this.myColor, i)
+        console.log(this.usersSimulated)
+  			this.countColorFromUsers();
   			clearInterval(count);
   		}
   		if (this.randomNumber == this.timer) {
-  			this.addNumberToColor();
+  			this.changeUserColor(this.timer);
   			this.randomNumber = Math.round(Math.random()*(60-1)+1);
   			this.timer=60;
   		}
   		else
   			this.timer-=1;
-  	},200)
+  	},100)
   }
 
-  addNumberToColor() {
-	let i = this.colors.findIndex(c=>c['color'] == this.assignColor());
-	if (i!=-1)
-		this.colors[i]['cant']+=1;
+  changeUserColor(time:number) {
+    let item = this.usersSimulated[Math.floor(Math.random()*this.usersSimulated.length)];
+    if (item.color != 'grey') {
+      if (this.usersSimulated.findIndex(u=>u.color == 'grey') != -1)
+        this.changeUserColor(time);
+      else {
+        this.clicked=true;
+        this.countColorFromUsers();
+      }
+    }
+    else
+      item.color = this.assignColor(time);
   }
 
   stopCount() {
-  	this.clicked = true;  	
+  	this.clicked = true;
   }
 
   saveData() {
-    this.myColor = this.assignColor();
-    this.addNumberToColor();
-    this.makeChart();
     let selectionUser = {
       'myColor': this.myColor,
       'colors': this.colors,
@@ -105,8 +126,20 @@ export class HomeComponent implements OnInit {
     localStorage.setItem('selectionUser',JSON.stringify(usersSaved));
   }
 
+  countColorFromUsers() {
+    this.usersSimulated.forEach(u=>{
+      let i = this.colors.findIndex(c=>c.color == u.color);
+      if (i!=-1)
+        this.colors[i].cant+=1;
+    })
+    let i = this.colors.findIndex(c=>c.color == this.myColor);
+    if (i!=-1)
+      this.colors[i].cant+=1;
+    this.makeChart();
+  }
+
   makeChart() {
-  	this.colors.forEach(c=>{
+    	this.colors.forEach(c=>{
       if (c['cant'] > 0) {
     		this.pieChartLabels.push(c['color']);
     		this.pieChartData.push(c['cant']);
@@ -114,9 +147,10 @@ export class HomeComponent implements OnInit {
       }
   	})
   	this.chart=true;
+    this.saveData();
   }
 
-  assignColor() {
+  assignColor(time:number) {
   	switch (true) {
   		case (this.timer>=52):
   			return 'purple'
