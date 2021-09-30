@@ -18,14 +18,15 @@ export class AppComponent {
   }
 
   _logged() {
-	  let condition =  sessionStorage.getItem('user') ? true : false;
+	  let condition =  localStorage.getItem('user') ? true : false;
     if (condition)
-      this.user = JSON.parse(sessionStorage.getItem('user') || '{}');
+      this.user = JSON.parse(localStorage.getItem('user') || '{}');
     return condition;
   }
 
   logout() {
-    sessionStorage.removeItem('user');
+    localStorage.removeItem('user');
+    localStorage.removeItem('selectionUser');
     this.router.navigate(['login']);
   }
 

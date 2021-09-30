@@ -2,14 +2,11 @@
 <mat-toolbar color="primary" style="height: 100% !important">
     <span>Test de botón</span>
     <span class="spacer"></span>
-<!--     <a class="link" *ngIf="!_logged()">Iniciar sesión</a>
-    <mat-icon class="icon" *ngIf="!_logged()">login</mat-icon>
- -->    <a class="link" *ngIf="_logged()">{{user.name}}</a>
+	<a class="link" *ngIf="_logged()">{{user.name}}</a>
     <mat-icon class="icon" *ngIf="_logged()" [matMenuTriggerFor]="menu">account_circle</mat-icon>
     <mat-menu #menu="matMenu">
 	  <button mat-menu-item (click)="logout()">Cerrar sesión <mat-icon class="iconLogout">logout</mat-icon></button>
 	</mat-menu>
-    <!-- <mat-icon class="example-icon" aria-hidden="false" aria-label="Example delete icon">delete</mat-icon> -->
 </mat-toolbar>
 </div>
 <router-outlet></router-outlet>

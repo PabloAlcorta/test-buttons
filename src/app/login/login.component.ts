@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
   		  u.email == this.loginForm.value.email
   		));
   		if (i!=-1) {
-  		  sessionStorage.setItem('user',JSON.stringify(users[i]));
+  		  localStorage.setItem('user',JSON.stringify(users[i]));
         this.router.navigate(['']);
       }
       else

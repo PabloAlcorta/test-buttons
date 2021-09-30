@@ -39,18 +39,18 @@ export class HomeComponent implements OnInit {
   	{'color': 'red','cant':0},
   	{'color': 'grey', 'cant': 0}
   ];
-  randomNumber=Math.round(Math.random()*(60-1)+1);
-  clicked:boolean=false;
-  chart:boolean=false;
+  randomNumber=Math.round(Math.random()*(60-1)+1); //Genera el numero aleatorio entre 1 y 60
+  clicked:boolean=false; //para indicar que se hizo click ya
+  chart:boolean=false; //cuando es true se muestra el grafico
   myColor:string='';
 
   ngOnInit(): void {
-  	this.user = JSON.parse(sessionStorage.getItem('user') || '{}');
-  	console.log(sessionStorage.getItem('selectionUser'));
-  	if (sessionStorage.getItem('selectionUser')) {
-  		this.colors = JSON.parse(sessionStorage.getItem('selectionUser') || '[]').colors;
-  		this.myColor = JSON.parse(sessionStorage.getItem('selectionUser') || '[]').myColor;
+  	this.user = JSON.parse(localStorage.getItem('user') || '{}');
+  	if (localStorage.getItem('selectionUser')) {
+  		this.colors = JSON.parse(localStorage.getItem('selectionUser') || '[]').colors;
+  		this.myColor = JSON.parse(localStorage.getItem('selectionUser') || '[]').myColor;
   		this.clicked = true;
+      this.makeChart();
   	}
   	else
   		this.countReverse();
@@ -59,17 +59,9 @@ export class HomeComponent implements OnInit {
   countReverse() {
   	var count = setInterval(()=>{
   		if (this.clicked) {
-  			this.myColor = this.assignColor();
-  			this.addNumberToColor();
-  			this.makeChart();
-  			let selectionUser = {
-  				'myColor': this.myColor,
-  				'colors': this.colors,
-  			}
-  			sessionStorage.setItem('selectionUser',JSON.stringify(selectionUser));
+  			this.saveData();
   			clearInterval(count);
   		}
-
   		if (this.randomNumber == this.timer) {
   			this.addNumberToColor();
   			this.randomNumber = Math.round(Math.random()*(60-1)+1);
@@ -88,6 +80,17 @@ export class HomeComponent implements OnInit {
 
   stopCount() {
   	this.clicked = true;  	
+  }
+
+  saveData() {
+    this.myColor = this.assignColor();
+    this.addNumberToColor();
+    this.makeChart();
+    let selectionUser = {
+      'myColor': this.myColor,
+      'colors': this.colors,
+    }
+    localStorage.setItem('selectionUser',JSON.stringify(selectionUser));
   }
 
   makeChart() {
