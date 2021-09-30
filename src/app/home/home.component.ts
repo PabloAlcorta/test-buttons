@@ -47,13 +47,21 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   	this.user = JSON.parse(localStorage.getItem('user') || '{}');
   	if (localStorage.getItem('selectionUser')) {
-  		this.colors = JSON.parse(localStorage.getItem('selectionUser') || '[]').colors;
-  		this.myColor = JSON.parse(localStorage.getItem('selectionUser') || '[]').myColor;
-  		this.clicked = true;
-      this.makeChart();
+      let usersSaved = JSON.parse(localStorage.getItem('selectionUser') || '[]');
+      console.log(usersSaved);
+      let i = usersSaved.findIndex((u:any)=>(u.username==this.user.username && u.email == this.user.email))
+      if (i!=-1) {
+    		this.colors = usersSaved[i].colors;
+    		this.myColor = usersSaved[i].myColor;
+    		this.clicked = true;
+        this.makeChart();        
+      }
+      else
+        this.countReverse();
   	}
-  	else
+  	else {
   		this.countReverse();
+    }
   }
 
   countReverse() {
@@ -89,15 +97,21 @@ export class HomeComponent implements OnInit {
     let selectionUser = {
       'myColor': this.myColor,
       'colors': this.colors,
+      'username': JSON.parse(localStorage.getItem('user') || '[]').username,
+      'email': JSON.parse(localStorage.getItem('user') || '[]').email
     }
-    localStorage.setItem('selectionUser',JSON.stringify(selectionUser));
+    let usersSaved = JSON.parse(localStorage.getItem('selectionUser') || '[]');
+    usersSaved.push(selectionUser);
+    localStorage.setItem('selectionUser',JSON.stringify(usersSaved));
   }
 
   makeChart() {
   	this.colors.forEach(c=>{
-  		this.pieChartLabels.push(c['color']);
-  		this.pieChartData.push(c['cant']);
-  		this.donutColors[0].backgroundColor.push(c['color']);
+      if (c['cant'] > 0) {
+    		this.pieChartLabels.push(c['color']);
+    		this.pieChartData.push(c['cant']);
+    		this.donutColors[0].backgroundColor.push(c['color']);        
+      }
   	})
   	this.chart=true;
   }
